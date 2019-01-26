@@ -7,6 +7,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static com.epam.library.validator.Validator.*;
@@ -31,11 +32,12 @@ public class LogInService implements Service{
         if(validateLoginRegex && validatePasswordRegex){
             isUser = validateUser(user, login, password);
             if(isUser) {
+                HttpSession session = request.getSession(true);
                 name = user.getName();
                 role = user.getRole();
-                request.setAttribute("role", role);
+                session.setAttribute("role", role);
                 dispatcher = request.getRequestDispatcher("jsp/user.jsp");
-                request.setAttribute("name", name);
+                session.setAttribute("name", name);
                 dispatcher.forward(request, response);
             }
         }
