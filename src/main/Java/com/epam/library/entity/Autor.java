@@ -1,37 +1,46 @@
 package com.epam.library.entity;
 
 public class Autor {
-    private String autorID;
-    private String firstNAme;
-    private String surName;
+    private int IDAutor;
+    private String name;
+    private String surname;
 
-    public Autor(String autorID, String firstNAme, String surName) {
-        this.autorID = autorID;
-        this.firstNAme = firstNAme;
-        this.surName = surName;
+    public Autor(int IDAutor, String name, String surname) {
+        this.IDAutor = IDAutor;
+        this.name = name;
+        this.surname = surname;
     }
 
-    public String getAutorID() {
-        return autorID;
+    public int getIDAutor() {
+        return IDAutor;
     }
 
-    public String getFirstNAme() {
-        return firstNAme;
+    public void setIDAutor(int IDAutor) {
+        this.IDAutor = IDAutor;
     }
 
-    public String getSurName() {
-        return surName;
+    public String getName() {
+        return name;
     }
 
-    public void setAutorID(String autorID) {
-        this.autorID = autorID;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setFirstNAme(String firstNAme) {
-        this.firstNAme = firstNAme;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setSurName(String surName) {
-        this.surName = surName;
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    @Override
+    public String toString() {
+        return "Autor{" +
+                "IDAutor=" + IDAutor +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                '}';
     }
 }

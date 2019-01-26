@@ -1,6 +1,6 @@
 package com.epam.library.entity;
 
-public class Literature {
+public abstract class Literature {
     private String title;
     private int languageID;
     private int ID;
@@ -11,27 +11,12 @@ public class Literature {
         this.ID = ID;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public int getLanguageID() {
-        return languageID;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setLanguageID(int languageID) {
-        this.languageID = languageID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
+    @Override
+    public String toString() {
+        return "Literature{" +
+                "title='" + title + '\'' +
+                ", languageID=" + languageID +
+                ", ID=" + ID +
+                '}';
     }
 }

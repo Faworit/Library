@@ -1,11 +1,11 @@
 package com.epam.library.entity;
 
-public class other extends Literature{
+public class Other extends Literature{
     private int edition;
     private int quantity;
     private String genre;
 
-    public other(String title, int languageID, int ID, int edition, int quantity, String genre) {
+    public Other(String title, int languageID, int ID, int edition, int quantity, String genre) {
         super(title, languageID, ID);
         this.edition = edition;
         this.quantity = quantity;
