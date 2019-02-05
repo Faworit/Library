@@ -18,14 +18,6 @@
     <filter-name>FilterEncoding</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-  <filter>
-    <filter-name>LibraryFilter</filter-name>
-    <filter-class>com.epam.library.filter.LibraryFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>LibraryFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Jsp Folder</web-resource-name>

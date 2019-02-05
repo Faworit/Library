@@ -5,13 +5,81 @@
   Time: 11:28
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<%@ page contentType="text/html;charset=UTF-8"  pageEncoding="utf-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page isELIgnored="false" %>
+
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="language"/>
+<html lang="${language}">
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Library</title>
 </head>
 <body>
-lets create new user
+    <form action="/ChangeLanguage" method="get">
+        <input type="hidden" name="jspname" value="jsp/setUser.jsp"/>
+        <p><input type="submit" name="language" value="RU"> </p>
+    </form>
+
+    <form action="/ChangeLanguage" method="get">
+        <input type="hidden" name="jspname" value="jsp/setUser.jsp" />
+        <p><input type="submit" name="language" value="ENG" ></p>
+    </form>
+
+    <form action="createUser" method="get">
+       <table>
+           <tr>
+               <td><fmt:message key="key.id"/>*</td>
+               <td><input type="text" name="ID"></td>
+           </tr>
+           <tr>
+               <td><fmt:message key="key.password"/>*
+                   <br> <fmt:message key="key.passwordFormat"/>
+               </td>
+               <td><input type="password" name="password" maxlength="6"></td>
+           </tr>
+           <tr>
+               <td><fmt:message key="key.name"/>*</td>
+               <td><input type="text" name="name"></td>
+           </tr>
+           <tr>
+               <td><fmt:message key="key.surname"/>*</td>
+               <td><input type="text" name="surname"></td>
+           </tr>
+           <tr>
+               <td><fmt:message key="key.mail"/>*
+                   ${notCorrectMail}
+               </td>
+               <td><input type="text" name="mail"></td>
+           </tr>
+           <tr>
+               <td><fmt:message key="key.phone"/>*</td>
+               <td><input type="text" name="phone"></td>
+           </tr>
+           <tr>
+               <td><fmt:message key="key.birthday"/>*</td>
+               <td><input type="text" name="birthday"></td>
+           </tr>
+           <tr>
+               <td><fmt:message key="key.isBlock"/>*</td>
+               <td><select name="block">
+                   <option value="n"><fmt:message key="key.nblock"/></option>
+                   <option value="y"><fmt:message key="key.block"/></option>
+               </select></td>
+           </tr>
+           <tr>
+               <td><fmt:message key="key.role"/>*</td>
+               <td><select name="role">
+                   <option disabled><fmt:message key="key.selectRole"/></option>
+                   <option value="reader"><fmt:message key="key.reader"/></option>
+                   <option value="librarian"><fmt:message key="key.librarian"/></option>
+               </select></td>
+           </tr>
+       </table>
+        <input type="submit" value="<fmt:message key="button.addUser"/>">
+    </form>
 
 </body>
 </html>

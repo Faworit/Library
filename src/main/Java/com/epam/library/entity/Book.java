@@ -1,22 +1,23 @@
 package com.epam.library.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Book extends Literature {
-    private int ISBN;
+    private String ISBN;
     private int quantity;
-    private ArrayList<Autor> autors;
-    private ArrayList<Genre> geners;
+    private List<Autor> autors = new ArrayList<>();
+    private List<Genre> geners = new ArrayList<>();
 
     public Book(String title, int languageID, int ID) {
         super(title, languageID, ID);
     }
 
-    public int getISBN() {
+    public String getISBN() {
         return ISBN;
     }
 
-    public void setISBN(int ISBN) {
+    public void setISBN(String ISBN) {
         this.ISBN = ISBN;
     }
 
@@ -28,30 +29,29 @@ public class Book extends Literature {
         this.quantity = quantity;
     }
 
-    public ArrayList<Autor> getAutors() {
+    public List<Autor> getAutors() {
         return autors;
     }
 
-    public void setAutors(ArrayList<Autor> autors) {
+    public void setAutors(List<Autor> autors) {
         this.autors = autors;
     }
 
-    public ArrayList<Genre> getGeners() {
+    public List<Genre> getGeners() {
         return geners;
     }
 
-    public void setGeners(ArrayList<Genre> geners) {
+    public void setGeners(List<Genre> geners) {
         this.geners = geners;
     }
 
     @Override
     public String toString() {
         return "Book{" +
-                "ISBN=" + ISBN +
+                "ISBN='" + ISBN + '\'' +
                 ", quantity=" + quantity +
                 ", autors=" + autors +
                 ", geners=" + geners +
-                ", title=" +
                 '}';
     }
 }

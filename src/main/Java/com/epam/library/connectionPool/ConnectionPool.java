@@ -38,7 +38,7 @@ public class ConnectionPool {
     }
 
     private void setDataForConnection(){
-        Properties properties = getProperties("connection");
+        Properties properties = getProperties("connectionPool.properties");
         this.url = properties.getProperty("pool.url"); //
         this.password = properties.getProperty("pool.password"); //
         this.user = properties.getProperty("pool.user"); //
@@ -46,14 +46,13 @@ public class ConnectionPool {
         this.maxConnection = Integer.parseInt(properties.getProperty("pool.maxConnection"));
     }
 
-    public static Properties getProperties(String connectionPool){
+    public static Properties getProperties(String connection){
         Properties properties = new Properties();
-        InputStream inputStream = ConnectionPool.class.getClassLoader().getResourceAsStream(connectionPool);
+        InputStream inputStream = ConnectionPool.class.getClassLoader().getResourceAsStream(connection);
         try {
             properties.load(inputStream);
         } catch (IOException e) {
-            log.warn(e);
-            e.printStackTrace();
+            log.error(e);
         }
         return properties;
     }
@@ -66,7 +65,7 @@ public class ConnectionPool {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             log.warn(e);
-            e.printStackTrace();
+
         } catch (ClassNotFoundException e) {
             log.warn(e);
             e.printStackTrace();

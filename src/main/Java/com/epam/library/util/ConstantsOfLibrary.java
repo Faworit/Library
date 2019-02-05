@@ -9,9 +9,9 @@ public class ConstantsOfLibrary {
     public static final String EMPTY_STRING = "";
     public static final String SPACE = " ";
     public static final String PASSWORD_REGEX = "[a-zA-Z0-9]{6}";
-//    public static final String
-//    public static final String
-//    public static final String
+    public static final String SHOW_BOOK = "/SHOW_BOOK";
+    public static final int ENG = 2;
+    public static final int RU = 1;
 //    public static final String
 //    public static final String
 //    public static final String

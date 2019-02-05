@@ -6,39 +6,48 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import static com.epam.library.util.ConstantDAO.*;
+
+import static com.epam.library.validator.AuthorizationValidator.validatePassword;
 
 public class UserDAO {
     private static final Logger log = Logger.getLogger("UserDAO");
+    public static final String GET_USER_BY_MAIL_PASSWORD = "SELECT * FROM USER WHERE MAIL=? AND PASSWORD=?";
     private ConnectionPool connectionPool;
     private Connection connection = null;
 
-    public User getUserByMail(String mail){
+    public User getUserByMailPassword(String mail, String password){
         User user = null;
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
-        try(PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_MAIL)){
+        try(PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_MAIL_PASSWORD)){
             preparedStatement.setString(1, mail);
+            preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
-                user = new User();
-                user = setParametrsToUser(user, resultSet);
+                String passFromDB = resultSet.getString("password");
+                if(validatePassword(password, passFromDB)) {
+                    user = new User();
+                    user = setParametrsToUser(user, resultSet);
+                }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e);
+        }
+        finally {
+            connectionPool.returnConnection(connection);
         }
         return user;
     }
 
     private User setParametrsToUser(User user, ResultSet resultSet){
         try {
-            user.setIDUser(resultSet.getInt("IDUser"));
+            user.setIDUser(resultSet.getInt("ID_User"));
             user.setPassword(resultSet.getString("password"));
             user.setName(resultSet.getString("name"));
             user.setSurname(resultSet.getString("surName"));
             user.setMail(resultSet.getString("mail"));
             user.setTelephone(resultSet.getString("telephone"));
-            user.setBirthDay(resultSet.getDate("birthday"));
+            user.setBirthDay(resultSet.getDate("birth_day"));
             user.setBlock(resultSet.getString("block"));
             user.setRole(resultSet.getString("role"));
         } catch (SQLException e) {

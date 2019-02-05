@@ -11,6 +11,30 @@ public abstract class Literature {
         this.ID = ID;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getLanguageID() {
+        return languageID;
+    }
+
+    public void setLanguageID(int languageID) {
+        this.languageID = languageID;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
     @Override
     public String toString() {
         return "Literature{" +

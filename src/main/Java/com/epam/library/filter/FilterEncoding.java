@@ -1,6 +1,8 @@
 package com.epam.library.filter;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class FilterEncoding implements Filter {

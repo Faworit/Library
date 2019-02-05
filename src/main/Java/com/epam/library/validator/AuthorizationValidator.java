@@ -4,7 +4,7 @@ import com.epam.library.entity.User;
 
 import static com.epam.library.util.ConstantsOfLibrary.*;
 
-public class Validator {
+public class AuthorizationValidator {
     public static boolean validateMailRegex(String login){
         boolean isCorrect = false;
         if(login.matches(MAIL_REGEX)){
@@ -22,11 +22,19 @@ public class Validator {
         return isCorrect;
     }
 
-    public static boolean validateUser(User user, String login, String password){
-        boolean isCorrect = false;
-        if(user.getMail().equals(login) && user.getPassword().equals(password)){
-            isCorrect = true;
-        }
+    public static boolean validatePassword(String password, String passFromDB){
+        boolean isCorrect;
+        isCorrect = passFromDB.equals(password);
         return isCorrect;
+    }
+
+    public static boolean validateBlock(User user){
+        String block;
+        boolean isBlock = false;
+        block = user.getBlock();
+        if(block.equals("n")){
+            isBlock = true;
+        }
+        return isBlock;
     }
 }
