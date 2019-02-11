@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: User
-  Date: 05.02.2019
-  Time: 12:40
+  Date: 10.02.2019
+  Time: 15:42
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8"  pageEncoding="utf-8" language="java" %>
@@ -18,10 +18,11 @@
     <title>Library</title>
 </head>
 <body>
-${information}
-<form action="setUser" method="get">
-    <input type="hidden" name="direction" value="jsp/user.jsp" />
-    <p><input type="submit" value="<fmt:message key="button.forwardToUser"/>"></p>
-</form>
+edit book
+${list}
+
+<%--< <c:forEach var="genres" items="${list}">
+    ${genres.genreName} <br>
+</c:forEach>--%>
 </body>
 </html>

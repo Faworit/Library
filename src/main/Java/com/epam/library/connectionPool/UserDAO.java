@@ -11,7 +11,7 @@ import static com.epam.library.validator.AuthorizationValidator.validatePassword
 
 public class UserDAO {
     private static final Logger log = Logger.getLogger("UserDAO");
-    public static final String GET_USER_BY_MAIL_PASSWORD = "SELECT * FROM USER WHERE MAIL=? AND PASSWORD=?";
+    public static final String GET_USER_BY_MAIL_PASSWORD = "SELECT ID_USER, PASSWORD, NAME, SURNAME, MAIL, TELEPHONE, BIRTH_DAY, BLOCK, ROLE_NAME FROM USER U, ROLE R WHERE MAIL=? AND PASSWORD=? AND U.ROLE=R.ID_ROLE";
     private ConnectionPool connectionPool;
     private Connection connection = null;
 
@@ -49,7 +49,7 @@ public class UserDAO {
             user.setTelephone(resultSet.getString("telephone"));
             user.setBirthDay(resultSet.getDate("birth_day"));
             user.setBlock(resultSet.getString("block"));
-            user.setRole(resultSet.getString("role"));
+            user.setRole(resultSet.getString("role_name"));
         } catch (SQLException e) {
             log.warn(e);
             e.printStackTrace();

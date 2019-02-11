@@ -15,13 +15,15 @@ import java.util.List;
 public class BookDAO {
     public static final String GET_FROM_BOOK_TABLE = "SELECT ID_BOOK, ID_LANGUAGE, TITLE, ISBN, NUMBER, QUANTITY FROM BOOK WHERE ID_LANGUAGE =?";
     public static final String GET_AUTOR = "SELECT A.ID_AUTOR, A.SURNAME, A.NAME FROM BOOK B, AUTOR A, BOOK2AUTOR BA WHERE B.ID_BOOK=BA.ID_BOOK AND A.ID_AUTOR=BA.ID_AUTOR AND B.ID_BOOK=? AND B.ID_LANGUAGE=?;";
-    public static final String GET_GENRE = "SELECT G.ID_GENRE, G.ID_LANGUAGE, G.GENRE_NAME FROM BOOK B, GENRE G, BOOK2GENRE BG WHERE B.ID_BOOK = BG.ID_BOOK AND G.ID_GENRE = BG.ID_GENRE AND B.ID_LANGUAGE = BG.ID_LANGUAGE AND G.ID_LANGUAGE=BG.ID_LANGUAGE AND G.ID_GENRE = BG.ID_GENRE AND B.ID_BOOK=? AND B.ID_LANGUAGE=?;";
+    public static final String ADD_BOOK = "INSERT INTO BOOK (ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY) VALUES (?, ?, ?, ?, ?)";
+    public static final String CHECK_BOOK_BY_ISBN = "SELECT ISBN FROM BOOK WHERE ISBN=?";
+    public static final String GET_BOOK_BY_ID = "SELECT ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY FROM BOOK WHERE ID_LANGUAGE=? AND ID_BOOK=?";
     private static final Logger log = Logger.getLogger("UserDAO");
     private ConnectionPool connectionPool;
     private Connection connection = null;
 
     public List<Book> getBook(int language) {
-        String ISBN;
+
         int number;
         List<Book> books = new ArrayList<>();
         Book book;
@@ -30,27 +32,47 @@ public class BookDAO {
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_FROM_BOOK_TABLE)) {
             preparedStatement.setInt(1, language);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 number = resultSet.getInt("number");
-                ISBN = resultSet.getString("ISBN");
-                if(number!=0){
+                if (number != 0) {
 
                 } else {
-                   book = createBook(resultSet, language);
-                   books.add(book);
+                    book = createBook(resultSet, language);
+                    books.add(book);
                 }
             }
         } catch (SQLException e) {
             log.error(e);
-        }
-        finally {
+        } finally {
             connectionPool.returnConnection(connection);
         }
 
         return books;
     }
 
-    private Book createBook(ResultSet resultSet, int language){
+    public Book getBookByID(int idBook, int language){
+        Book book = null;
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_BOOK_BY_ID)) {
+            preparedStatement.setInt(1, language);
+            preparedStatement.setInt(2, idBook);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                book = createBook(resultSet, language);
+                }
+            }
+        catch (SQLException e) {
+            log.error(e);
+        } finally {
+            connectionPool.returnConnection(connection);
+        }
+
+        return book;
+
+    }
+
+    private Book createBook(ResultSet resultSet, int language) {
         List<Autor> autors;
         List<Genre> genres;
         Book book = null;
@@ -63,7 +85,8 @@ public class BookDAO {
             book.setQuantity(resultSet.getInt("QUANTITY"));
             autors = getAutor(IDBook, language);
             book.setAutors(autors);
-            genres = getGener(IDBook, language);
+            GenreDAO genreDAO = new GenreDAO();
+            genres = genreDAO.getGenre(IDBook, language);
             book.setGeners(genres);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -71,7 +94,7 @@ public class BookDAO {
         return book;
     }
 
-    private List<Autor> getAutor(int IDBook, int language){
+    private List<Autor> getAutor(int IDBook, int language) {
         int IDAutor;
         String surName;
         String name;
@@ -79,11 +102,11 @@ public class BookDAO {
         Autor autor;
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_AUTOR)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_AUTOR)) {
             preparedStatement.setInt(1, IDBook);
             preparedStatement.setInt(2, language);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 IDAutor = resultSet.getInt("ID_AUTOR");
                 surName = resultSet.getString("surname");
                 name = resultSet.getString("name");
@@ -91,36 +114,47 @@ public class BookDAO {
                 autors.add(autor);
             }
         } catch (SQLException e) {
-           log.error(e);
-        }
-        finally {
+            log.error(e);
+        } finally {
             connectionPool.returnConnection(connection);
         }
         return autors;
     }
 
-    private List<Genre> getGener(int IDBook, int language){
-        int IDGenre;
-        int IDLanguage;
-        String genreName;
-        List<Genre> geners = new ArrayList<>();
-        Genre genre;
+    public void addBook(int idBook, int idLanguage, String ISBN, int quantity, String title) {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_GENRE)){
-            preparedStatement.setInt(1, IDBook);
-            preparedStatement.setInt(2, language);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_BOOK)) {
+            preparedStatement.setInt(1, idBook);
+            preparedStatement.setInt(2, idLanguage);
+            preparedStatement.setString(3, title);
+            preparedStatement.setString(4, ISBN);
+            preparedStatement.setInt(5, quantity);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            log.error(e);
+        }
+        finally {
+            connectionPool.returnConnection(connection);
+        }
+    }
+
+    public boolean checkBook(String ISBN) {
+        boolean isAvailable = false;
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(CHECK_BOOK_BY_ISBN)) {
+            preparedStatement.setString(1, ISBN);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                IDGenre = resultSet.getInt("ID_GENRE");
-                IDLanguage = resultSet.getInt("ID_LANGUAGE");
-                genreName = resultSet.getString("GENRE_NAME");
-                genre = new Genre(IDGenre, IDLanguage, genreName);
-                geners.add(genre);
+            if(resultSet.next()){
+                isAvailable = true;
             }
         } catch (SQLException e) {
             log.error(e);
         }
-        return geners;
+        finally {
+            connectionPool.returnConnection(connection);
+        }
+        return isAvailable;
     }
 }

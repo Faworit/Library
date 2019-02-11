@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
 
 public class LibraryController extends HttpServlet {
     private static long serialVersionUID = 1L;
@@ -29,6 +30,10 @@ public class LibraryController extends HttpServlet {
         String s = request.getRequestURI();
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         Service service = serviceFactory.getService(s);
-        service.execute(request, response);
+        try {
+            service.execute(request, response);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }

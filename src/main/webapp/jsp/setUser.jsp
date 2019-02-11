@@ -32,54 +32,58 @@
        <table>
            <tr>
                <td><fmt:message key="key.id"/>*</td>
-               <td><input type="text" name="ID"></td>
+               <td><input type="text" name="ID" required></td>
            </tr>
            <tr>
                <td><fmt:message key="key.password"/>*
                    <br> <fmt:message key="key.passwordFormat"/>
                </td>
-               <td><input type="password" name="password" maxlength="6"></td>
+               <td><input type="password" name="password" maxlength="6" required></td>
            </tr>
            <tr>
                <td><fmt:message key="key.name"/>*</td>
-               <td><input type="text" name="name"></td>
+               <td><input type="text" name="name" required></td>
            </tr>
            <tr>
                <td><fmt:message key="key.surname"/>*</td>
-               <td><input type="text" name="surname"></td>
+               <td><input type="text" name="surname" required></td>
            </tr>
            <tr>
                <td><fmt:message key="key.mail"/>*
                    ${notCorrectMail}
                </td>
-               <td><input type="text" name="mail"></td>
+               <td><input type="text" name="mail" required></td>
            </tr>
            <tr>
                <td><fmt:message key="key.phone"/>*</td>
-               <td><input type="text" name="phone"></td>
+               <td><input type="text" name="phone" required></td>
            </tr>
            <tr>
                <td><fmt:message key="key.birthday"/>*</td>
-               <td><input type="text" name="birthday"></td>
+               <td><input type="date" name="birthday" placeholder="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this format YYYY-MM-DD"/></td>
+               <%--<td><input type="text" name="birthday" required></td>--%>
            </tr>
            <tr>
                <td><fmt:message key="key.isBlock"/>*</td>
-               <td><select name="block">
+               <td><select required name="block">
+                   <option></option>
                    <option value="n"><fmt:message key="key.nblock"/></option>
                    <option value="y"><fmt:message key="key.block"/></option>
                </select></td>
            </tr>
            <tr>
                <td><fmt:message key="key.role"/>*</td>
-               <td><select name="role">
+               <td><select name="role" required>
+                   <option></option>
                    <option disabled><fmt:message key="key.selectRole"/></option>
-                   <option value="reader"><fmt:message key="key.reader"/></option>
+                   <option value="reader" ><fmt:message key="key.reader"/></option>
                    <option value="librarian"><fmt:message key="key.librarian"/></option>
                </select></td>
            </tr>
        </table>
-        <input type="submit" value="<fmt:message key="button.addUser"/>">
-    </form>
+       <input type="submit" value="<fmt:message key="button.addUser"/>">
+        <br> ${loginExists}
 
+    </form>
 </body>
 </html>

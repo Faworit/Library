@@ -21,19 +21,19 @@
     <p><h1>Hello ${name}</h1></p>
 
     <form action="/ChangeLanguage" method="get">
-        <input type="hidden" name="jspname" value="jsp/User.jsp"/>
+        <input type="hidden" name="jspname" value="/jsp/user.jsp"/>
         <p><input type="submit" name="language" value="RU"> </p>
     </form>
 
-    <form action="ChangeLanguage" method="get">
-        <input type="hidden" name="jspname" value="jsp/User.jsp" />
+    <form action="/ChangeLanguage" method="get">
+        <input type="hidden" name="jspname" value="/jsp/user.jsp" />
         <p><input type="submit" name="language" value="ENG" ></p>
     </form>
     <table border="1">
         <tr>
             <td><fmt:message key="key.title"/></td>
             <td><fmt:message key="key.genre"/></td>
-            <td><fmt:message key="key.autor"/></td>
+            <td><fmt:message key="key.author"/></td>
             <td><fmt:message key="key.ISBN"/></td>
            <%-- <td><fmt:message key="key.number"/></td>--%>
             <td><fmt:message key="key.quantity"/></td>
@@ -43,9 +43,8 @@
                 <fmt:message key="key.format"/>
             </td>
             </c:if>
-
-
         </tr>
+
         <c:forEach var="books" items="${list}">
             <tr>
                 <td>${books.title}</td>
@@ -61,23 +60,16 @@
                         <br>
                     </c:forEach></td>
                 <td>${books.ISBN}</td>
-                <%--<td><c:if test="${not empty books.number}">
-                    ${book.number}
-                </c:if>
-                </td>--%>
                 <td>${books.quantity}</td>
                 <c:if test="${role eq 'librarian'}">
                 <td>
                     <form action="editBook" method="get">
-                    <%--<p><input type="hidden" value="${books.ID}"></p>
-                    <p><input type="hidden" name="language" value=${language} /></p>--%>
-                    <p><input type="submit" value="<fmt:message key="button.edit"/>"> </p>
-                    </form>
-                    <form action="remove" method="get">
-                        <%--<p><input type="hidden" name="jspname" value="jsp/user.jsp"/></p>--%>
-                        <p><input type="hidden" name="del" value="${books.ID}"></p>
-                        <%--<p><input type="hidden" name="language" value=${language} /></p>--%>
-                        <p><input type="submit" value="<fmt:message key="button.delete"/>"></p>
+                        <p><input type="hidden" name="ID" value="${books.ID}"></p>
+                        <%--<p><input type="hidden" name="genre" value="${books.geners}"></p>
+                        <p><input type="hidden" name="author" value="${books.autors}"></p>--%>
+                        <p><input type="hidden" name="ISBN" value="${books.ISBN}"></p>
+                        <p><input type="hidden" name="quantity" value="${books.quantity}"></p>
+                        <p><input type="submit" value="<fmt:message key="button.edit"/>"> </p>
                     </form>
                 </td>
                 </c:if>
@@ -92,10 +84,15 @@
     </form>
 
     <c:if test="${role eq 'librarian'}">
-        <form action="setUser" method="get">
+        <form action="Forward" method="get">
+            <input type="hidden" name="direction" value="jsp/setUser.jsp" />
             <p><input type="submit" value="<fmt:message key="button.setUser"/>"></p>
         </form>
-    </c:if>
 
+        <form action="showAddBookMenu" method="get">
+            <p><input type="hidden" name="language" value=${language} /></p>
+            <p><input type="submit" value="<fmt:message key="button.addBook"/>"></p>
+        </form>
+    </c:if>
 </body>
 </html>

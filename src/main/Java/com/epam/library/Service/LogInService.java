@@ -29,7 +29,6 @@ public class LogInService implements Service{
         validateLoginRegex = validateMailRegex(login);
         validatePasswordRegex = validatePasswordRegex(password);
         user = userDAO.getUserByMailPassword(login, password);
-
         if(validateLoginRegex && validatePasswordRegex && user!=null){
             isBlock = validateBlock(user);
             if(isBlock){
