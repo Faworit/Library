@@ -11,8 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GenreDAO {
-    public static final String GET_GENRE = "SELECT G.ID_GENRE, G.ID_LANGUAGE, G.GENRE_NAME FROM BOOK B, GENRE G, BOOK2GENRE BG WHERE B.ID_BOOK = BG.ID_BOOK AND G.ID_GENRE = BG.ID_GENRE AND B.ID_LANGUAGE = BG.ID_LANGUAGE AND G.ID_LANGUAGE=BG.ID_LANGUAGE AND G.ID_GENRE = BG.ID_GENRE AND B.ID_BOOK=? AND B.ID_LANGUAGE=?";
+    public static final String GET_GENRE = "SELECT G.ID_GENRE, G.ID_LANGUAGE, G.GENRE_NAME FROM BOOK B, GENRE G, " +
+            "BOOK2GENRE BG WHERE B.ID_BOOK = BG.ID_BOOK AND G.ID_GENRE = BG.ID_GENRE AND B.ID_LANGUAGE = BG.ID_LANGUAGE " +
+            "AND G.ID_LANGUAGE=BG.ID_LANGUAGE AND G.ID_GENRE = BG.ID_GENRE AND B.ID_BOOK=? AND B.ID_LANGUAGE=?";
     public static final String GET_ALL_GENRES = "SELECT * FROM GENRE WHERE ID_LANGUAGE=?";
+    public static final String EDIT_GENRE = "UPDATE GENRE SET GENRE_NAME = ? WHERE (ID_GENRE = ?) and (ID_LANGUAGE = ?)";
     private static final Logger log = Logger.getLogger("UserDAO");
     private ConnectionPool connectionPool;
     private Connection connection = null;
@@ -70,5 +73,21 @@ public class GenreDAO {
             connectionPool.returnConnection(connection);
         }
         return genres;
+    }
+
+    public void setEditGenre(int idGenre, int idLanguage, String genreName){
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(EDIT_GENRE)) {
+            preparedStatement.setString(1, genreName);
+            preparedStatement.setInt(2, idGenre);
+            preparedStatement.setInt(3, idLanguage);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            log.error(e);
+        }
+        finally {
+            connectionPool.returnConnection(connection);
+        }
     }
 }

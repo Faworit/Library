@@ -1,22 +1,22 @@
 package com.epam.library.entity;
 
 public class Autor {
-    private int IDAutor;
+    private int IDAuthor;
     private String name;
     private String surname;
 
-    public Autor(int IDAutor, String name, String surname) {
-        this.IDAutor = IDAutor;
+    public Autor(int IDAuthor, String name, String surname) {
+        this.IDAuthor = IDAuthor;
         this.name = name;
         this.surname = surname;
     }
 
-    public int getIDAutor() {
-        return IDAutor;
+    public int getIDAuthor() {
+        return IDAuthor;
     }
 
-    public void setIDAutor(int IDAutor) {
-        this.IDAutor = IDAutor;
+    public void setIDAuthor(int IDAuthor) {
+        this.IDAuthor = IDAuthor;
     }
 
     public String getName() {
@@ -38,7 +38,7 @@ public class Autor {
     @Override
     public String toString() {
         return "Autor{" +
-                "IDAutor=" + IDAutor +
+                "IDAuthor=" + IDAuthor +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 '}';

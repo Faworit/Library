@@ -35,9 +35,7 @@
             <td><fmt:message key="key.genre"/></td>
             <td><fmt:message key="key.author"/></td>
             <td><fmt:message key="key.ISBN"/></td>
-           <%-- <td><fmt:message key="key.number"/></td>--%>
             <td><fmt:message key="key.quantity"/></td>
-
             <c:if test="${role eq 'librarian'}">
             <td>
                 <fmt:message key="key.format"/>
@@ -63,12 +61,8 @@
                 <td>${books.quantity}</td>
                 <c:if test="${role eq 'librarian'}">
                 <td>
-                    <form action="editBook" method="get">
+                    <form action="editBookMenu" method="get">
                         <p><input type="hidden" name="ID" value="${books.ID}"></p>
-                        <%--<p><input type="hidden" name="genre" value="${books.geners}"></p>
-                        <p><input type="hidden" name="author" value="${books.autors}"></p>--%>
-                        <p><input type="hidden" name="ISBN" value="${books.ISBN}"></p>
-                        <p><input type="hidden" name="quantity" value="${books.quantity}"></p>
                         <p><input type="submit" value="<fmt:message key="button.edit"/>"> </p>
                     </form>
                 </td>
@@ -79,7 +73,7 @@
     </table>
 
     <form action="search" method="get">
-        <p><input type="text" name="search" maxlength="50" value="<fmt:message key="key.search"/>"></p>
+        <p><input type="text" name="search" maxlength="50" placeholder="<fmt:message key="key.search"/>"></p>
         <p><input type="submit" value="<fmt:message key="key.search"/>"></p>
     </form>
 

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.epam.library.util.ConstantsOfLibrary.ENG;
@@ -21,7 +20,7 @@ public class ShowBookService implements Service {
         RequestDispatcher dispatcher;
         HttpSession session = request.getSession(true);
         BookDAO bookDAO = new BookDAO();
-        String language = request.getParameter("language");
+        String language = String.valueOf(session.getAttribute("language"));
         int IDlanguage;
         if(language.equals("RU") || language.equals("/")){
             IDlanguage = RU;

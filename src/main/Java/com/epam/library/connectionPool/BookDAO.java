@@ -13,18 +13,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookDAO {
-    public static final String GET_FROM_BOOK_TABLE = "SELECT ID_BOOK, ID_LANGUAGE, TITLE, ISBN, NUMBER, QUANTITY FROM BOOK WHERE ID_LANGUAGE =?";
-    public static final String GET_AUTOR = "SELECT A.ID_AUTOR, A.SURNAME, A.NAME FROM BOOK B, AUTOR A, BOOK2AUTOR BA WHERE B.ID_BOOK=BA.ID_BOOK AND A.ID_AUTOR=BA.ID_AUTOR AND B.ID_BOOK=? AND B.ID_LANGUAGE=?;";
-    public static final String ADD_BOOK = "INSERT INTO BOOK (ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY) VALUES (?, ?, ?, ?, ?)";
+    public static final String GET_FROM_BOOK_TABLE = "SELECT ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY " +
+            "FROM BOOK WHERE ID_LANGUAGE =?";
+    public static final String GET_AUTOR = "SELECT A.ID_AUTOR, A.SURNAME, A.NAME FROM BOOK B, AUTOR A, BOOK2AUTOR BA " +
+            "WHERE B.ID_BOOK=BA.ID_BOOK AND A.ID_AUTOR=BA.ID_AUTOR AND B.ID_BOOK=? AND B.ID_LANGUAGE=?;";
+    public static final String ADD_BOOK = "INSERT INTO BOOK (ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY) " +
+            "VALUES (?, ?, ?, ?, ?)";
     public static final String CHECK_BOOK_BY_ISBN = "SELECT ISBN FROM BOOK WHERE ISBN=?";
-    public static final String GET_BOOK_BY_ID = "SELECT ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY FROM BOOK WHERE ID_LANGUAGE=? AND ID_BOOK=?";
+    public static final String GET_BOOK_BY_ID = "SELECT ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY FROM BOOK WHERE " +
+            "ID_LANGUAGE=? AND ID_BOOK=?";
+    public static final String EDIT_BOOK = "UPDATE book SET TITLE = ?, ISBN = ?, QUANTITY = ? WHERE (ID_BOOK = ?) " +
+            "and (ID_LANGUAGE = ?)";
+    private final String REMOVE_BOOK_BY_ID = "DELETE FROM book WHERE (ID_BOOK = ?)";
     private static final Logger log = Logger.getLogger("UserDAO");
     private ConnectionPool connectionPool;
     private Connection connection = null;
 
     public List<Book> getBook(int language) {
-
-        int number;
         List<Book> books = new ArrayList<>();
         Book book;
         connectionPool = ConnectionPool.getInstance();
@@ -33,13 +38,8 @@ public class BookDAO {
             preparedStatement.setInt(1, language);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                number = resultSet.getInt("number");
-                if (number != 0) {
-
-                } else {
-                    book = createBook(resultSet, language);
-                    books.add(book);
-                }
+                book = createBook(resultSet, language);
+                books.add(book);
             }
         } catch (SQLException e) {
             log.error(e);
@@ -67,9 +67,7 @@ public class BookDAO {
         } finally {
             connectionPool.returnConnection(connection);
         }
-
         return book;
-
     }
 
     private Book createBook(ResultSet resultSet, int language) {
@@ -156,5 +154,61 @@ public class BookDAO {
             connectionPool.returnConnection(connection);
         }
         return isAvailable;
+    }
+
+    public void editBook(String title, String ISBN, int quantity, int idBook, int idLanguage){
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(EDIT_BOOK)) {
+            preparedStatement.setString(1, title);
+            preparedStatement.setString(2, ISBN);
+            preparedStatement.setInt(3, quantity);
+            preparedStatement.setInt(4, idBook);
+            preparedStatement.setInt(5, idLanguage);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            log.error(e);
+        }
+        finally {
+            connectionPool.returnConnection(connection);
+        }
+    }
+
+    public void removeBook(int bookID) {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(REMOVE_BOOK_BY_ID)) {
+            preparedStatement.setInt(1, bookID);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            log.error(e);
+        }
+        finally {
+            connectionPool.returnConnection(connection);
+        }
+    }
+
+    public List<Book> searchBook(List<String> wordsToSearch, String requestToDB, int language) {
+        List<Book> books = new ArrayList<>();
+        Book book;
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(requestToDB)) {
+            for(int i=0; i<wordsToSearch.size(); i++) {
+                int index = i+1;
+                String word = wordsToSearch.get(i);
+                preparedStatement.setString(index, word);
+            }
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                book = createBook(resultSet, language);
+                books.add(book);
+            }
+        } catch (SQLException e) {
+            log.error(e);
+        } finally {
+            connectionPool.returnConnection(connection);
+        }
+        return books;
     }
 }

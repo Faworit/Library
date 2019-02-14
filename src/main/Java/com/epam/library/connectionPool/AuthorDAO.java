@@ -1,24 +1,24 @@
-/*
 package com.epam.library.connectionPool;
 
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class RemoveBookDAO {
-    private final Logger log = Logger.getLogger("RemoveBookDAO");
-    //private final String REMOVE_BOOK_BY_ID = "DELETE FROM BOOK WHERE ID_BOOK=?";
+public class AuthorDAO {
+    public static final String EDIT_AUTHOR = "UPDATE AUTHOR SET SURNAME=?, NAME=? WHERE ID_AUTHOR=?";
+    private static final Logger log = Logger.getLogger("UserDAO");
     private ConnectionPool connectionPool;
     private Connection connection = null;
 
-    public void removeBook(int bookID) {
+    public void editAuthor(String name, String surname, int idAuthor){
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(REMOVE_BOOK_BY_ID)) {
-            preparedStatement.setInt(1, bookID);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(EDIT_AUTHOR)) {
+            preparedStatement.setString(1, surname);
+            preparedStatement.setString(2, name);
+            preparedStatement.setInt(3, idAuthor);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             log.error(e);
@@ -28,4 +28,3 @@ public class RemoveBookDAO {
         }
     }
 }
-*/

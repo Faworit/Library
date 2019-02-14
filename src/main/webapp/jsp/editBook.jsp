@@ -18,11 +18,46 @@
     <title>Library</title>
 </head>
 <body>
-edit book
-${list}
-
-<%--< <c:forEach var="genres" items="${list}">
-    ${genres.genreName} <br>
-</c:forEach>--%>
+<form action="editBook" method="get">
+    <table border="1">
+        <tr>
+            <td><fmt:message key="key.title"/></td>
+            <td><input type="text" name="title" required value="${book.title}"></td>
+        </tr>
+        <tr>
+            <td><fmt:message key="key.genre"/></td>
+            <td><c:forEach var="genre" items="${book.geners}">
+                <input type="hidden" name="idGenre" value="${genre.IDGenre}">
+                <input type="text" name="genre" required value="${genre.genreName}">
+                <br>
+            </c:forEach>
+            </td>
+        </tr>
+        <tr>
+            <td><fmt:message key="key.author"/></td>
+            <td><c:forEach var="author" items="${book.autors}">
+                <input type="hidden" name="idAuthor" value="${author.IDAuthor}">
+                <input type="text" name="name"  value="${author.name}">
+                <input type="text" name="surname"  value="${author.surname}">
+                <br>
+            </c:forEach>
+            </td>
+        </tr>
+        <tr>
+            <td><fmt:message key="key.ISBN"/></td>
+            <td><input type="text" name="ISBN" required value="${book.ISBN}"></td>
+        </tr>
+        <tr>
+            <td><fmt:message key="key.quantity"/></td>
+            <td><input type="text" name="quantity" required value="${book.quantity}"></td>
+        </tr>
+    </table>
+    <input type="hidden" name="ID" value="${book.ID}">
+    <input type="submit" value="<fmt:message key="button.apply"/>">
+</form>
+<form action="removeBook" method="get">
+    <input type="hidden" name="ID" value="${book.ID}">
+    <input type="submit" value="<fmt:message key="button.delete"/>">
+</form>
 </body>
 </html>
