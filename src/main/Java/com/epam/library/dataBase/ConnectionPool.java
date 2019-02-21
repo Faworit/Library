@@ -1,4 +1,4 @@
-package com.epam.library.connectionPool;
+package com.epam.library.dataBase;
 
 import org.apache.log4j.Logger;
 import java.io.IOException;

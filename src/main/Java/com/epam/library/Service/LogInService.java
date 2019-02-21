@@ -1,6 +1,6 @@
 package com.epam.library.Service;
 
-import com.epam.library.connectionPool.UserDAO;
+import com.epam.library.dataBase.UserDAO;
 import com.epam.library.entity.User;
 
 import javax.servlet.RequestDispatcher;
@@ -17,6 +17,7 @@ public class LogInService implements Service{
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher;
+        int idUser;
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         String name;
@@ -35,6 +36,8 @@ public class LogInService implements Service{
                 HttpSession session = request.getSession(true);
                 name = user.getName();
                 role = user.getRole();
+                idUser = user.getIDUser();
+                session.setAttribute("idUser", idUser);
                 session.setAttribute("role", role);
                 session.setAttribute("name", name);
                 session.setAttribute("login", login);

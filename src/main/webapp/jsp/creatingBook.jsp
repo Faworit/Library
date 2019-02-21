@@ -80,7 +80,7 @@
     </table>
     <input type="submit" value="<fmt:message key="button.addBook"/>">
 </form>
-<form action="Forward" method="get">
+<form action="forward" method="get">
     <input type="hidden" name="direction" value="jsp/creatingGenre.jsp">
     <input type="submit" value="<fmt:message key="button.addGenre"/>">
 </form>

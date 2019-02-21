@@ -1,7 +1,7 @@
 package com.epam.library.Service;
 
-import com.epam.library.connectionPool.CheckUserDAO;
-import com.epam.library.connectionPool.CreateUserDAO;
+import com.epam.library.dataBase.CheckUserDAO;
+import com.epam.library.dataBase.CreateUserDAO;
 import com.epam.library.validator.AuthorizationValidator;
 
 import javax.servlet.RequestDispatcher;

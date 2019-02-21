@@ -19,7 +19,7 @@
 </head>
 <body>
 ${information}
-<form action="Forward" method="get">
+<form action="forward" method="get">
     <input type="hidden" name="direction" value="jsp/user.jsp" />
     <p><input type="submit" value="<fmt:message key="button.forwardToUser"/>"></p>
 </form>

@@ -1,6 +1,6 @@
 package com.epam.library.Service;
 
-import com.epam.library.connectionPool.BookDAO;
+import com.epam.library.dataBase.BookDAO;
 import com.epam.library.entity.Book;
 
 import javax.servlet.RequestDispatcher;
@@ -24,6 +24,7 @@ public class SearchService implements Service {
         String language;
         int countWordsSearch;
         List<Book> books;
+        List<String> argumentsLike;
         BookDAO bookDAO = new BookDAO();
         HttpSession session = request.getSession(true);
         language = String.valueOf(session.getAttribute("language"));
@@ -35,31 +36,43 @@ public class SearchService implements Service {
             IDlanguage = ENG;
         }
         String requestSearch = request.getParameter("search");
-        List<String> wordsSearch = parseRequestSearch(requestSearch);
-        countWordsSearch = wordsSearch.size();
+        argumentsLike = createArgumentLike(requestSearch);
+        countWordsSearch = argumentsLike.size();
         requestDB = createRequest(countWordsSearch);
-        books = bookDAO.searchBook(wordsSearch, requestDB, IDlanguage);
+        books = bookDAO.searchBook(argumentsLike, requestDB, IDlanguage);
         session.setAttribute("list", books);
         dispatcher = request.getRequestDispatcher("jsp/user.jsp");
         dispatcher.forward(request, response);
-
     }
 
-    private List<String> parseRequestSearch(String requestSearch){
-        String afterRemovePunctuation = requestSearch.replaceAll("[^а-яА-Яa-zA-Z]", " ").replaceAll("\\s+", " ");
-        String[] wordsArray = afterRemovePunctuation.split(" ");
-        ArrayList<String> wordsSearch = new ArrayList<>(Arrays.asList(wordsArray));
-        return wordsSearch;
+    private List<String> createArgumentLike(String requestSearch){
+        String argument;
+        String afterRemovePunctuation;
+        String[] wordsArray;
+        ArrayList<String> wordsSearch;
+        List<String> argumentsLike = new ArrayList<>();
+        afterRemovePunctuation = requestSearch.replaceAll("[^а-яА-Яa-zA-Z]", " ").replaceAll("\\s+", " ");
+        wordsArray = afterRemovePunctuation.split(" ");
+        wordsSearch = new ArrayList<>(Arrays.asList(wordsArray));
+        StringBuilder stringBuilder;
+        for (int i = 0; i < wordsSearch.size(); i++) {
+            stringBuilder = new StringBuilder("%%");
+            stringBuilder.insert(1, wordsSearch.get(i));
+            argument = stringBuilder.toString();
+            argumentsLike.add(argument);
+        }
+
+        return argumentsLike;
     }
 
-    public String createRequest(int countWordsSearch){
-        String firstPartOfRequest = "select title from book where (title like \"%\" + ? +\"%\" )"; //58
-        String partToInsert = " or title like \"%\"+?+\"%\"";
+    public static String createRequest(int countWordsSearch){
+        String firstPartOfRequest = "SELECT ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY FROM BOOK WHERE ID_LANGUAGE=? AND TITLE LIKE ?"; //select ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY from book where title like '%java%'
+        String partToInsert = " OR TITLE LIKE ?";
         String requestToDB;
         if(countWordsSearch>1) {
             StringBuilder stringBuilder = new StringBuilder(firstPartOfRequest);
             for (int i = 0; i < countWordsSearch-1; i++) {
-                stringBuilder.insert(54, partToInsert);
+                stringBuilder.insert(97, partToInsert);
             }
             requestToDB = stringBuilder.toString();
         }

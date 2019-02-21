@@ -1,8 +1,8 @@
 package com.epam.library.Service;
 
-import com.epam.library.connectionPool.AuthorDAO;
-import com.epam.library.connectionPool.BookDAO;
-import com.epam.library.connectionPool.GenreDAO;
+import com.epam.library.dataBase.AuthorDAO;
+import com.epam.library.dataBase.BookDAO;
+import com.epam.library.dataBase.GenreDAO;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

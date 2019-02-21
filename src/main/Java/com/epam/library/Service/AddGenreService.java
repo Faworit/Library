@@ -1,6 +1,6 @@
 package com.epam.library.Service;
 
-import com.epam.library.connectionPool.AddGenreDAO;
+import com.epam.library.dataBase.AddGenreDAO;
 import com.epam.library.validator.GenreValidator;
 
 import javax.servlet.RequestDispatcher;

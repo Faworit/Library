@@ -1,7 +1,7 @@
 package com.epam.library.Service;
 
-import com.epam.library.connectionPool.BookDAO;
-import com.epam.library.connectionPool.BookGenreDAO;
+import com.epam.library.dataBase.BookDAO;
+import com.epam.library.dataBase.BookGenreDAO;
 import com.epam.library.validator.BookValidator;
 
 import javax.servlet.RequestDispatcher;

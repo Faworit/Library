@@ -1,7 +1,6 @@
 package com.epam.library.validator;
 
-import com.epam.library.connectionPool.BookDAO;
-import com.epam.library.connectionPool.GenreDAO;
+import com.epam.library.dataBase.GenreDAO;
 import com.epam.library.entity.Genre;
 
 import java.util.List;

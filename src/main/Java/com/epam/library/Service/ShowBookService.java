@@ -1,6 +1,6 @@
 package com.epam.library.Service;
 
-import com.epam.library.connectionPool.BookDAO;
+import com.epam.library.dataBase.BookDAO;
 import com.epam.library.entity.Book;
 
 import javax.servlet.RequestDispatcher;

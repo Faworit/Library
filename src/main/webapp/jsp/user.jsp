@@ -37,9 +37,14 @@
             <td><fmt:message key="key.ISBN"/></td>
             <td><fmt:message key="key.quantity"/></td>
             <c:if test="${role eq 'librarian'}">
-            <td>
-                <fmt:message key="key.format"/>
-            </td>
+                <td>
+                    <fmt:message key="key.format"/>
+                </td>
+            </c:if>
+            <c:if test="${role eq 'reader'}">
+                <td>
+                    <fmt:message key="button.orderBook"/>
+                </td>
             </c:if>
         </tr>
 
@@ -60,14 +65,21 @@
                 <td>${books.ISBN}</td>
                 <td>${books.quantity}</td>
                 <c:if test="${role eq 'librarian'}">
-                <td>
-                    <form action="editBookMenu" method="get">
-                        <p><input type="hidden" name="ID" value="${books.ID}"></p>
-                        <p><input type="submit" value="<fmt:message key="button.edit"/>"> </p>
-                    </form>
-                </td>
+                    <td>
+                        <form action="editBookMenu" method="get">
+                            <p><input type="hidden" name="ID" value="${books.ID}"></p>
+                            <p><input type="submit" value="<fmt:message key="button.edit"/>"> </p>
+                        </form>
+                    </td>
                 </c:if>
-
+                <c:if test="${role eq 'reader'}">
+                    <td>
+                        <form action="makeOrder" method="get">
+                            <p><input type="hidden" name="ID" value="${books.ID}"></p>
+                            <p><input type="submit" value="<fmt:message key="button.orderBook"/>"></p>
+                        </form>
+                    </td>
+                </c:if>
             </tr>
         </c:forEach>
     </table>
@@ -78,7 +90,7 @@
     </form>
 
     <c:if test="${role eq 'librarian'}">
-        <form action="Forward" method="get">
+        <form action="forward" method="get">
             <input type="hidden" name="direction" value="jsp/setUser.jsp" />
             <p><input type="submit" value="<fmt:message key="button.setUser"/>"></p>
         </form>
@@ -87,6 +99,16 @@
             <p><input type="hidden" name="language" value=${language} /></p>
             <p><input type="submit" value="<fmt:message key="button.addBook"/>"></p>
         </form>
+        <form action="showOrder" method="get">
+            <p><input type="hidden" name="language" value=${language}></p>
+            <p><input type="submit" value="<fmt:message key="button.orders"/>"></p>
+        </form>
     </c:if>
+    <c:if test="${role eq 'reader'}">
+        <form action="showOrder" method="get">
+            <p><input type="submit" value="<fmt:message key="button.myOrders"/>"></p>
+        </form>
+    </c:if>
+
 </body>
 </html>
