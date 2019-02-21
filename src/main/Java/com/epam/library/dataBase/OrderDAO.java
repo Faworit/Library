@@ -13,15 +13,37 @@ public class OrderDAO {
             "BG.ACTUALLY_RETURNED, S.NAME FROM  BOOK B, BOOKING BG, ORDER2USER O2U, STATE S WHERE  " +
             "BG.ID_STATE=S.ID_STATE AND BG.ID_ORDER=O2U.ID_ORDER AND BG.ID_BOOK=B.ID_BOOK AND " +
             "S.ID_LANGUAGE=B.ID_LANGUAGE AND B.ID_LANGUAGE=? AND O2U.ID_USER=? ORDER BY ORDER_DATE DESC";
-    public static final String GET_ALL_ORDERS = "SELECT DISTINCT BG.ID_ORDER, B.TITLE, BG.ORDER_DATE, BG.RETURN_DATE, " +
+    public static final String GET_ALL_BOOKINGS = "SELECT DISTINCT BG.ID_ORDER, B.TITLE, BG.ORDER_DATE, BG.RETURN_DATE, " +
             "BG.ACTUALLY_RETURNED, S.NAME FROM  BOOK B, BOOKING BG, ORDER2USER O2U, STATE S WHERE  " +
             "BG.ID_STATE=S.ID_STATE AND BG.ID_ORDER=O2U.ID_ORDER AND BG.ID_BOOK=B.ID_BOOK AND " +
             "S.ID_LANGUAGE=B.ID_LANGUAGE AND B.ID_LANGUAGE=? ORDER BY ORDER_DATE DESC";
+    public static final String GET_ORDER_FOR_EXECUTION = "SELECT DISTINCT BG.ID_ORDER, B.TITLE, BG.ORDER_DATE, BG.RETURN_DATE, BG.ACTUALLY_RETURNED, S.NAME FROM  BOOK B, BOOKING BG, ORDER2USER O2U, STATE S WHERE BG.ID_STATE=S.ID_STATE AND BG.ID_ORDER=O2U.ID_ORDER AND BG.ID_BOOK=B.ID_BOOK AND S.ID_LANGUAGE=B.ID_LANGUAGE AND B.ID_LANGUAGE=? and BG.ID_ORDER=?";
     public static final String CREATE_BOOKING = "INSERT INTO BOOKING (ID_BOOK, ID_STATE) VALUES (?, 1)";
     public static final String INSERT_INTO_ORDER2USER = "INSERT INTO ORDER2USER (ID_ORDER, ID_USER) VALUES (?, ?)";
     private static final Logger log = Logger.getLogger("OrderDAO");
     private ConnectionPool connectionPool;
     private Connection connection = null;
+
+    public Order getOrderExecuting(int idLanguage, int idOrder){
+        Order order = null;
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_ORDER_FOR_EXECUTION)) {
+            preparedStatement.setInt(1, idLanguage);
+            preparedStatement.setInt(2, idOrder);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                order = OrderFactory.collectOrder(resultSet);
+            }
+        } catch (SQLException e) {
+            log.error(e);
+        }
+        finally {
+            connectionPool.returnConnection(connection);
+        }
+
+        return order;
+    }
 
     public List<Order> getPersonalOrders(int idLanguage, int idUser){
         List<Order> orders = new ArrayList<>();
@@ -33,7 +55,7 @@ public class OrderDAO {
             preparedStatement.setInt(2, idUser);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
-                order = OrderFactory.collectPersonalOrder(resultSet);
+                order = OrderFactory.collectOrder(resultSet);
                 orders.add(order);
             }
         } catch (SQLException e) {
@@ -50,11 +72,11 @@ public class OrderDAO {
         Order order;
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_ORDERS)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_BOOKINGS)) {
             preparedStatement.setInt(1, idLanguage);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
-                order = OrderFactory.collectOrderLibrarian(resultSet, idLanguage);
+                order = OrderFactory.collectOrder(resultSet);
                 orders.add(order);
             }
         } catch (SQLException e) {

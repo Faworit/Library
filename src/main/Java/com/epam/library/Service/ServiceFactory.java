@@ -15,10 +15,13 @@ public class ServiceFactory {
         MAP_OF_SERVICE.put("/addGenre", new AddGenreService());
         MAP_OF_SERVICE.put("/createUser", new AddUserService());
         MAP_OF_SERVICE.put("/createBook", new AddBookService());
-        MAP_OF_SERVICE.put("/editBookMenu", new ShowEditBookMenuService());
         MAP_OF_SERVICE.put("/editBook", new EditBookService());
+        MAP_OF_SERVICE.put("/editBooking", new EditBookingService());
+        MAP_OF_SERVICE.put("/editBookMenu", new ShowEditBookMenuService());
         MAP_OF_SERVICE.put("/forward", new ForwardService());
+        MAP_OF_SERVICE.put("/issue", new IssueBookService());
         MAP_OF_SERVICE.put("/makeOrder", new MakeOrderService());
+        MAP_OF_SERVICE.put("/perform", new PerformOrderService());
         MAP_OF_SERVICE.put("/removeBook", new RemoveBookService());
         MAP_OF_SERVICE.put("/search", new SearchService());
         MAP_OF_SERVICE.put("/showAddBookMenu", new ShowAddBookMenuService());

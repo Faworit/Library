@@ -1,7 +1,6 @@
 package com.epam.library.entity;
 
 import java.util.Date;
-import java.util.List;
 
 public class Order {
     private int orderID;
@@ -10,7 +9,24 @@ public class Order {
     private Date orderDate;
     private Date returnDate;
     private Date actuallyReturn;
-    private List<User> users;
+    private User reader;
+    private User librarian;
+
+    public User getReader() {
+        return reader;
+    }
+
+    public void setReader(User reader) {
+        this.reader = reader;
+    }
+
+    public User getLibrarian() {
+        return librarian;
+    }
+
+    public void setLibrarian(User librarian) {
+        this.librarian = librarian;
+    }
 
     public int getOrderID() {
         return orderID;
@@ -60,14 +76,6 @@ public class Order {
         this.actuallyReturn = actuallyReturn;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
     @Override
     public String toString() {
         return "Order{" +
@@ -77,7 +85,8 @@ public class Order {
                 ", orderDate=" + orderDate +
                 ", returnDate=" + returnDate +
                 ", actuallyReturn=" + actuallyReturn +
-                ", users=" + users +
+                ", reader=" + reader +
+                ", librarian=" + librarian +
                 '}';
     }
 }

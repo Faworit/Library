@@ -14,7 +14,8 @@ import static com.epam.library.validator.AuthorizationValidator.validatePassword
 public class UserDAO {
     private static final Logger log = Logger.getLogger("UserDAO");
     public static final String GET_USER_BY_MAIL_PASSWORD = "SELECT ID_USER, PASSWORD, NAME, SURNAME, MAIL, TELEPHONE, BIRTH_DAY, BLOCK, ROLE_NAME FROM USER U, ROLE R WHERE MAIL=? AND PASSWORD=? AND U.ROLE=R.ID_ROLE";
-    public static final String GET_USERS_BY_ID_ORDER = "SELECT U.ID_USER, U.PASSWORD, U.NAME, U.SURNAME, U.MAIL, U.TELEPHONE, U.BIRTH_DAY, U.BLOCK, U.ROLE  FROM USER U, ORDER2USER O2U, BOOKING B WHERE B.ID_ORDER = O2U.ID_ORDER AND U.ID_USER=O2U.ID_USER AND B.ID_ORDER=? AND U.ROLE= 3 ";
+    public static final String GET_USERS_BY_ID_ORDER = "SELECT U.ID_USER, U.PASSWORD, U.NAME, U.SURNAME, U.MAIL, U.TELEPHONE, U.BIRTH_DAY, U.BLOCK, R.ROLE_NAME  FROM USER U, ORDER2USER O2U, BOOKING B, ROLE R WHERE B.ID_ORDER = O2U.ID_ORDER AND U.ID_USER=O2U.ID_USER AND U.ROLE=R.ID_ROLE AND B.ID_ORDER=?";
+    public  static final String INSERT_PERFORMER_OF_ORDER = "INSERT INTO order2user (ID_ORDER, ID_USER) VALUES (?, ?)";
     private ConnectionPool connectionPool;
     private Connection connection = null;
 
@@ -81,4 +82,21 @@ public class UserDAO {
         }
         return user;
     }
+
+    public void insertPerformer(int idOrder, int idLibrarian){
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try(PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PERFORMER_OF_ORDER)){
+            preparedStatement.setInt(1, idOrder);
+            preparedStatement.setInt(2, idLibrarian);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            log.error(e);
+        }
+        finally {
+            connectionPool.returnConnection(connection);
+        }
+    }
+
+
 }
