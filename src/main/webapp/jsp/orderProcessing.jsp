@@ -50,13 +50,34 @@
         <tr>
             <td>${booking.orderID}</td>
             <td>${booking.bookTitle}</td>
-            <td><input type="date" name="orderDate" placeholder="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this format YYYY-MM-DD"/></td>
-            <td><input type="date" name="returnDate" placeholder="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this format YYYY-MM-DD"/></td>
-            <td><input type="date" name="actuallyReturn" placeholder="YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this format YYYY-MM-DD"/></td>
+            <td>
+                <c:if test="${empty booking.orderDate}">
+                    <input type="date" name="orderDate" placeholder="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this format YYYY-MM-DD"/>
+                </c:if>
+                <c:if test="${not empty booking.orderDate}">
+                    ${booking.orderDate}
+                </c:if>
+            </td>
+            <td>
+                <c:if test="${empty booking.returnDate}">
+                <input type="date" name="returnDate" placeholder="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this format YYYY-MM-DD"/>
+                </c:if>
+                <c:if test="${not empty booking.returnDate}">
+                    ${booking.returnDate}
+                </c:if>
+            </td>
+            <td>
+                <c:if test="${empty booking.actuallyReturn}">
+                    <input type="date" name="actuallyReturn" placeholder="YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this format YYYY-MM-DD"/>
+                </c:if>
+                <c:if test="${not empty booking.actuallyReturn}">
+                    ${booking.actuallyReturn}
+                </c:if>
+            </td>
             <c:if test="${role eq 'librarian'}">
                 <td>
-                        ${booking.librarian.name}
-                        ${booking.librarian.surname}
+                    ${booking.librarian.name}
+                    ${booking.librarian.surname}
                 </td>
             </c:if>
             <td>
@@ -64,7 +85,7 @@
                 ${booking.reader.surname}
             </td>
             <td>
-                <select name="s1">
+                <select name="status">
                     <option selected disabled><fmt:message key="key.selectStatus"/></option>
                     <c:forEach var="status" items="${list}">
                         <option>${status}</option>

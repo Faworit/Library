@@ -11,12 +11,12 @@ import java.util.List;
 
 public class StatusDAO {
     public static final String GET_STATE_NAME = "SELECT NAME FROM STATE WHERE ID_LANGUAGE=?";
+    public static final String GET_STATUS_ID_BY_NAME = "SELECT ID_STATE FROM STATE WHERE NAME=?";
     private static final Logger log = Logger.getLogger("BookGenreDAO");
     private ConnectionPool connectionPool;
     private Connection connection = null;
 
     public List<String> getStatuses(int idLanguage){
-
         List<String> statuses = new ArrayList<>();
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
@@ -30,5 +30,25 @@ public class StatusDAO {
             log.error(e);
         }
         return statuses;
+    }
+
+    public int getStatusID(String name){
+        int idStatus = 0;
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try(PreparedStatement preparedStatement = connection.prepareStatement(GET_STATUS_ID_BY_NAME)){
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                idStatus = resultSet.getInt("ID_STATE");
+            }
+
+        } catch (SQLException e) {
+            log.error(e);
+        }
+        finally {
+            connectionPool.returnConnection(connection);
+        }
+        return idStatus;
     }
 }

@@ -61,7 +61,6 @@
            <tr>
                <td><fmt:message key="key.birthday"/>*</td>
                <td><input type="date" name="birthday" placeholder="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this format YYYY-MM-DD"/></td>
-               <%--<td><input type="text" name="birthday" required></td>--%>
            </tr>
            <tr>
                <td><fmt:message key="key.isBlock"/>*</td>

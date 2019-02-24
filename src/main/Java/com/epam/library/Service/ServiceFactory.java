@@ -22,6 +22,7 @@ public class ServiceFactory {
         MAP_OF_SERVICE.put("/issue", new IssueBookService());
         MAP_OF_SERVICE.put("/makeOrder", new MakeOrderService());
         MAP_OF_SERVICE.put("/perform", new PerformOrderService());
+        MAP_OF_SERVICE.put("/onlyNew", new ShowBookingByStatusService());
         MAP_OF_SERVICE.put("/removeBook", new RemoveBookService());
         MAP_OF_SERVICE.put("/search", new SearchService());
         MAP_OF_SERVICE.put("/showAddBookMenu", new ShowAddBookMenuService());
