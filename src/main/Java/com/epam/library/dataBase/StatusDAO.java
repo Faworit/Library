@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StatusDAO {
-    public static final String GET_STATE_NAME = "SELECT NAME FROM STATE WHERE ID_LANGUAGE=?";
+    public static final String GET_STATE_NAME = "SELECT NAME FROM STATE WHERE ID_LANGUAGE=? AND NAME!='выдан' AND NAME!='issued'";
     public static final String GET_STATUS_ID_BY_NAME = "SELECT ID_STATE FROM STATE WHERE NAME=?";
     private static final Logger log = Logger.getLogger("BookGenreDAO");
     private ConnectionPool connectionPool;

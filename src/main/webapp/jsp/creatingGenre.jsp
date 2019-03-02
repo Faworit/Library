@@ -19,13 +19,13 @@
 </head>
 <body>
 
-<form action="/ChangeLanguage" method="get">
-    <input type="hidden" name="jspname" value="jsp/creatingGenre.jsp"/>
+<form action="forward" method="get">
+    <input type="hidden" name="direction" value="jsp/creatingGenre.jsp" />
     <p><input type="submit" name="language" value="RU"> </p>
 </form>
 
-<form action="/ChangeLanguage" method="get">
-    <input type="hidden" name="jspname" value="jsp/creatingGenre.jsp" />
+<form action="forward" method="get">
+    <input type="hidden" name="direction" value="jsp/creatingGenre.jsp" />
     <p><input type="submit" name="language" value="ENG" ></p>
 </form>
 <form action="addGenre" method="get">
@@ -47,6 +47,12 @@
         </tr>
     </table>
     <input type="submit" value="<fmt:message key="button.addGenre"/>">
+</form>
+<form action="logOut" method="get">
+    <input type="submit" value="<fmt:message key="button.logOut"/>">
+</form>
+<form action="/showBook" method="get">
+    <input type="submit" value="<fmt:message key="button.mainPage"/>">
 </form>
 </body>
 </html>

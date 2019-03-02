@@ -1,6 +1,7 @@
 package com.epam.library.Service;
 
 import com.epam.library.dataBase.BookDAO;
+import com.epam.library.dataBase.LanguageDAO;
 import com.epam.library.entity.Book;
 
 import javax.servlet.RequestDispatcher;
@@ -13,33 +14,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.epam.library.util.ConstantsOfLibrary.ENG;
-import static com.epam.library.util.ConstantsOfLibrary.RU;
-
 public class SearchService implements Service {
+    RequestDispatcher dispatcher;
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher;
-        String requestDB;
-        String language;
+        int idLanguage;
         int countWordsSearch;
+        String requestDB;
+        String requestSearch;
         List<Book> books;
         List<String> argumentsLike;
         BookDAO bookDAO = new BookDAO();
+        LanguageDAO languageDAO = new LanguageDAO();
         HttpSession session = request.getSession(true);
-        language = String.valueOf(session.getAttribute("language"));
-        int IDlanguage;
-        if(language.equals("RU") || language.equals("/")){
-            IDlanguage = RU;
-        }
-        else{
-            IDlanguage = ENG;
-        }
-        String requestSearch = request.getParameter("search");
+        idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
+        requestSearch = request.getParameter("search");
         argumentsLike = createArgumentLike(requestSearch);
         countWordsSearch = argumentsLike.size();
         requestDB = createRequest(countWordsSearch);
-        books = bookDAO.searchBook(argumentsLike, requestDB, IDlanguage);
+        books = bookDAO.searchBook(argumentsLike, requestDB, idLanguage);
         session.setAttribute("list", books);
         dispatcher = request.getRequestDispatcher("jsp/user.jsp");
         dispatcher.forward(request, response);
@@ -65,7 +58,7 @@ public class SearchService implements Service {
         return argumentsLike;
     }
 
-    public static String createRequest(int countWordsSearch){
+    private static String createRequest(int countWordsSearch){
         String firstPartOfRequest = "SELECT ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY FROM BOOK WHERE ID_LANGUAGE=? AND TITLE LIKE ?"; //select ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY from book where title like '%java%'
         String partToInsert = " OR TITLE LIKE ?";
         String requestToDB;

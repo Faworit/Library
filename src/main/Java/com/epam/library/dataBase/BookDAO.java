@@ -21,8 +21,8 @@ public class BookDAO {
             "ID_LANGUAGE=? AND ID_BOOK=?";
     public static final String EDIT_BOOK = "UPDATE book SET TITLE = ?, ISBN = ?, QUANTITY = ? WHERE (ID_BOOK = ?) " +
             "and (ID_LANGUAGE = ?)";
-    public final String REMOVE_BOOK_BY_ID = "DELETE FROM book WHERE (ID_BOOK = ?)";
-    //public final String SEARCH_BOOK_BY_TITLE = SearchService.createRequest()
+    public static final String REMOVE_BOOK_BY_ID = "DELETE FROM book WHERE (ID_BOOK = ?)";
+    public static final String UPDATE_QUANTITY = "UPDATE BOOK SET QUANTITY = QUANTITY-1 WHERE ID_BOOK = ?";
     private static final Logger log = Logger.getLogger("UserDAO");
     private ConnectionPool connectionPool;
     private Connection connection = null;
@@ -122,10 +122,10 @@ public class BookDAO {
         }
     }
 
-    public void removeBook(int bookID) {
+    public void editByID(int bookID, String query) {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(REMOVE_BOOK_BY_ID)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, bookID);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

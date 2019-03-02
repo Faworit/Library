@@ -17,20 +17,19 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Library</title>
+    <link href="/css/user.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<div class="menu1">
+    <form action="logOut" method="get">
+        <input type="submit" class="button" value="<fmt:message key="button.logOut"/>">
+    </form>
+    <form action="/showBook" method="get">
+        <input type="submit" class="button" value="<fmt:message key="button.mainPage"/>">
+    </form>
+</div>
 
-<form action="/ChangeLanguage" method="get">
-    <input type="hidden" name="jspname" value="/jsp/orders.jsp"/>
-    <p><input type="submit" name="language" value="RU"> </p>
-</form>
-
-<form action="/ChangeLanguage" method="get">
-    <input type="hidden" name="jspname" value="/jsp/orders.jsp" />
-    <p><input type="submit" name="language" value="ENG" ></p>
-</form>
-
-<table border="1">
+<table border="1" width="1000px">
     <tr>
         <td><fmt:message key="key.idOrder"/></td>
         <td><fmt:message key="key.bookTitle"/></td>
@@ -93,11 +92,10 @@
                  </select>
             </td>
             <td>
-                <p><input type="submit" value="<fmt:message key="key.apply"/>"></p>
+                <p><input type="submit" class="button" value="<fmt:message key="key.apply"/>"></p>
             </td>
         </tr>
     </form>
 </table>
-
 </body>
 </html>

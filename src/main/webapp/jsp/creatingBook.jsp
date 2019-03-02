@@ -16,18 +16,37 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Library</title>
+    <link href="/css/user.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<div class="userLine">
+    <div class="greating">
+        <h1 align="center">${surname} ${name} </h1>
+    </div>
+    <div class="changeLanguage">
+        <form action="/showAddBookMenu" method="get">
+            <input type="hidden" name="jspname" value="jsp/creatingBook.jsp"/>
+            <p><input type="submit" class="button" name="language" value="RU"> </p>
+        </form>
 
-<form action="/ChangeLanguage" method="get">
-    <input type="hidden" name="jspname" value="jsp/creatingBook.jsp"/>
-    <p><input type="submit" name="language" value="RU"> </p>
-</form>
-
-<form action="/ChangeLanguage" method="get">
-    <input type="hidden" name="jspname" value="jsp/creatingBook.jsp" />
-    <p><input type="submit" name="language" value="ENG" ></p>
-</form>
+        <form action="/showAddBookMenu" method="get">
+            <input type="hidden" name="jspname" value="jsp/creatingBook.jsp" />
+            <p><input type="submit" class="button" name="language" value="ENG" ></p>
+        </form>
+    </div>
+</div>
+<div class="menu1">
+    <form action="forward" method="get">
+        <input type="hidden" name="direction" value="jsp/creatingGenre.jsp">
+        <input type="submit" class="button" value="<fmt:message key="button.addGenre"/>">
+    </form>
+    <form action="logOut" method="get">
+        <input type="submit" class="button" value="<fmt:message key="button.logOut"/>">
+    </form>
+    <form action="/showBook" method="get">
+        <input type="submit" class="button" value="<fmt:message key="button.mainPage"/>">
+    </form>
+</div>
 
 <form action="createBook" method="get">
     <table>
@@ -78,12 +97,9 @@
             </td>
         </tr>
     </table>
-    <input type="submit" value="<fmt:message key="button.addBook"/>">
+    <input type="submit" class="button" value="<fmt:message key="button.addBook"/>">
 </form>
-<form action="forward" method="get">
-    <input type="hidden" name="direction" value="jsp/creatingGenre.jsp">
-    <input type="submit" value="<fmt:message key="button.addGenre"/>">
-</form>
+
 </body>
 </html>
 

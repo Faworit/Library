@@ -3,6 +3,7 @@ package com.epam.library.Service;
 import com.epam.library.dataBase.CheckUserDAO;
 import com.epam.library.dataBase.CreateUserDAO;
 import com.epam.library.validator.AuthorizationValidator;
+import com.epam.library.validator.RepeatPasswordValidator;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,21 +21,25 @@ public class AddUserService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
         RequestDispatcher dispatcher;
-        boolean isCorrectMail;
-        boolean isUser;
         CreateUserDAO createUserDAO = new CreateUserDAO();
         CheckUserDAO checkUserDAO = new CheckUserDAO();
         int ID = Integer.parseInt(request.getParameter("ID"));
         String password = request.getParameter("password");
+        String repeatPassword = request.getParameter("repeatPassword");
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date birthday = format.parse(request.getParameter("birthday"));
         String mail = request.getParameter("mail");
         String telephone = request.getParameter("phone");
         String block = request.getParameter("block");
         String role = request.getParameter("role");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date birthday = format.parse(request.getParameter("birthday"));
+        boolean isCorrectMail;
+        boolean isUser;
         isCorrectMail = AuthorizationValidator.validateMailRegex(mail);
+        if(!RepeatPasswordValidator.isEqualPasswords(password, repeatPassword)){
+            request.setAttribute("notEqual", "passwords not equals");
+        }
         if(!isCorrectMail){
             request.setAttribute("notCorrectMail", "not correct format of mail");
             dispatcher = request.getRequestDispatcher("jsp/setUser.jsp");

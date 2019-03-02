@@ -2,6 +2,7 @@ package com.epam.library.Service;
 
 import com.epam.library.dataBase.UserDAO;
 import com.epam.library.entity.User;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,7 +13,7 @@ import java.io.IOException;
 
 import static com.epam.library.validator.AuthorizationValidator.*;
 
-public class LogInService implements Service{
+public class LogInService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -21,6 +22,7 @@ public class LogInService implements Service{
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         String name;
+        String surname;
         String role;
         boolean validateLoginRegex;
         boolean validatePasswordRegex;
@@ -29,17 +31,20 @@ public class LogInService implements Service{
         UserDAO userDAO = new UserDAO();
         validateLoginRegex = validateMailRegex(login);
         validatePasswordRegex = validatePasswordRegex(password);
-        user = userDAO.getUserByMailPassword(login, password);
+        String md5Password = DigestUtils.md5Hex(password);
+        user = userDAO.getUserByMailPassword(login, md5Password);
         if(validateLoginRegex && validatePasswordRegex && user!=null){
             isBlock = validateBlock(user);
             if(isBlock){
                 HttpSession session = request.getSession(true);
                 name = user.getName();
+                surname = user.getSurname();
                 role = user.getRole();
                 idUser = user.getIDUser();
                 session.setAttribute("idUser", idUser);
                 session.setAttribute("role", role);
                 session.setAttribute("name", name);
+                session.setAttribute("surname", surname);
                 session.setAttribute("login", login);
                 session.setAttribute("password", password);
                 ShowBookService showBookService = new ShowBookService();

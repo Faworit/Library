@@ -16,8 +16,24 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Library</title>
+    <link href="/css/user.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<div class="menu1">
+    <form action="logOut" method="get">
+        <input type="submit" class="button" value="<fmt:message key="button.logOut"/>">
+    </form>
+    <form action="/showBook" method="get">
+        <input type="submit" class="button" value="<fmt:message key="button.mainPage"/>">
+    </form>
+
+    <form action="removeBook" method="get">
+        <input type="hidden" name="ID" value="${book.ID}">
+        <button class="buttonDel"><fmt:message key="button.delete"/></button>
+    </form>
+</div>
+
+
 <form action="editBook" method="get">
     <table border="1">
         <tr>
@@ -51,13 +67,16 @@
             <td><fmt:message key="key.quantity"/></td>
             <td><input type="text" name="quantity" required value="${book.quantity}"></td>
         </tr>
+        <tr>
+            <td>
+                <input type="hidden" name="ID" value="${book.ID}">
+                <input type="submit" class="button" value="<fmt:message key="button.apply"/>">
+            </td>
+        </tr>
     </table>
-    <input type="hidden" name="ID" value="${book.ID}">
-    <input type="submit" value="<fmt:message key="button.apply"/>">
 </form>
-<form action="removeBook" method="get">
-    <input type="hidden" name="ID" value="${book.ID}">
-    <input type="submit" value="<fmt:message key="button.delete"/>">
-</form>
+
+
+
 </body>
 </html>

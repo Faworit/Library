@@ -5,10 +5,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static com.epam.library.Service.ChangeLanguageService.ENGLISH;
-import static com.epam.library.Service.ChangeLanguageService.RUSSIAN;
-
 public class FilterLanguage implements Filter {
+    public static final String ENGLISH = "ENG";
+    public static final String RUSSIAN = "RU";
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -21,7 +20,6 @@ public class FilterLanguage implements Filter {
         HttpSession session = httpRequest.getSession();
 
         String language = servletRequest.getParameter("language");
-        System.out.println(language);
         if(servletRequest.getParameter("language")!=null){
             if(language.equalsIgnoreCase(ENGLISH)){
                 session.setAttribute("language", ENGLISH);

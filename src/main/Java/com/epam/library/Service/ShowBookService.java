@@ -1,6 +1,7 @@
 package com.epam.library.Service;
 
 import com.epam.library.dataBase.BookDAO;
+import com.epam.library.dataBase.LanguageDAO;
 import com.epam.library.entity.Book;
 
 import javax.servlet.RequestDispatcher;
@@ -11,24 +12,18 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-import static com.epam.library.util.ConstantsOfLibrary.ENG;
-import static com.epam.library.util.ConstantsOfLibrary.RU;
-
 public class ShowBookService implements Service {
+    RequestDispatcher dispatcher;
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher;
+        int idLanguage;
+        List<Book> books;
         HttpSession session = request.getSession(true);
         BookDAO bookDAO = new BookDAO();
-        String language = String.valueOf(session.getAttribute("language"));
-        int IDlanguage;
-        if(language.equals("RU") || language.equals("/")){
-            IDlanguage = RU;
-        }
-        else{
-            IDlanguage = ENG;
-        }
-        List<Book> books = bookDAO.getBook(IDlanguage);
+        LanguageDAO languageDAO = new LanguageDAO();
+        idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
+        books = bookDAO.getBook(idLanguage);
         session.setAttribute("list", books);
         dispatcher = request.getRequestDispatcher("jsp/user.jsp");
         dispatcher.forward(request, response);

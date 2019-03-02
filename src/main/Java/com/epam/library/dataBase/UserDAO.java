@@ -97,6 +97,4 @@ public class UserDAO {
             connectionPool.returnConnection(connection);
         }
     }
-
-
 }

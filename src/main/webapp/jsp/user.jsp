@@ -16,99 +16,112 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Library</title>
+    <link href="/css/user.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <p><h1>Hello ${name}</h1></p>
 
-    <form action="/ChangeLanguage" method="get">
-        <input type="hidden" name="jspname" value="/jsp/user.jsp"/>
-        <p><input type="submit" name="language" value="RU"> </p>
-    </form>
+<div class="userLine">
+    <div class="greating">
+       <h1 align="center">${surname} ${name} </h1>
+    </div>
+    <div class="search">
+        <form action="search" method="get">
+            <input type="search" name="search" maxlength="50" placeholder="<fmt:message key="key.search"/>">
+            <input type="submit" class="button" value="<fmt:message key="key.search"/>">
+        </form>
+    </div>
+    <div class="changeLanguage">
+        <form action="/showBook" method="get">
+            <input type="submit" class="button" name="language" value="RU">
+            <input type="submit" class="button" name="language" value="ENG">
+        </form>
+    </div>
+</div>
 
-    <form action="/ChangeLanguage" method="get">
-        <input type="hidden" name="jspname" value="/jsp/user.jsp" />
-        <p><input type="submit" name="language" value="ENG" ></p>
-    </form>
-    <table border="1">
-        <tr>
-            <td><fmt:message key="key.title"/></td>
-            <td><fmt:message key="key.genre"/></td>
-            <td><fmt:message key="key.author"/></td>
-            <td><fmt:message key="key.ISBN"/></td>
-            <td><fmt:message key="key.quantity"/></td>
-            <c:if test="${role eq 'librarian'}">
-                <td>
-                    <fmt:message key="key.format"/>
-                </td>
-            </c:if>
-            <c:if test="${role eq 'reader'}">
-                <td>
-                    <fmt:message key="button.orderBook"/>
-                </td>
-            </c:if>
-        </tr>
-
-        <c:forEach var="books" items="${list}">
-            <tr>
-                <td>${books.title}</td>
-                <td>
-                    <c:forEach var="genre" items="${books.geners}">
-                    ${genre.genreName} <br>
-                    </c:forEach>
-                </td>
-                <td>
-                    <c:forEach var="autor" items="${books.autors}">
-                        ${autor.name}
-                        ${autor.surname}
-                        <br>
-                    </c:forEach></td>
-                <td>${books.ISBN}</td>
-                <td>${books.quantity}</td>
-                <c:if test="${role eq 'librarian'}">
-                    <td>
-                        <form action="editBookMenu" method="get">
-                            <p><input type="hidden" name="ID" value="${books.ID}"></p>
-                            <p><input type="submit" value="<fmt:message key="button.edit"/>"> </p>
-                        </form>
-                    </td>
-                </c:if>
-                <c:if test="${role eq 'reader'}">
-                    <td>
-                        <form action="makeOrder" method="get">
-                            <p><input type="hidden" name="ID" value="${books.ID}"></p>
-                            <p><input type="submit" value="<fmt:message key="button.orderBook"/>"></p>
-                        </form>
-                    </td>
-                </c:if>
-            </tr>
-        </c:forEach>
-    </table>
-
-    <form action="search" method="get">
-        <p><input type="text" name="search" maxlength="50" placeholder="<fmt:message key="key.search"/>"></p>
-        <p><input type="submit" value="<fmt:message key="key.search"/>"></p>
-    </form>
-
+<div class="menu1">
     <c:if test="${role eq 'librarian'}">
         <form action="forward" method="get">
             <input type="hidden" name="direction" value="jsp/setUser.jsp" />
-            <p><input type="submit" value="<fmt:message key="button.setUser"/>"></p>
+            <p><input type="submit" class="button" value="<fmt:message key="button.setUser"/>"></p>
         </form>
 
         <form action="showAddBookMenu" method="get">
             <p><input type="hidden" name="language" value=${language} /></p>
-            <p><input type="submit" value="<fmt:message key="button.addBook"/>"></p>
+            <p><input type="submit" class="button" value="<fmt:message key="button.addBook"/>"></p>
         </form>
         <form action="showOrder" method="get">
             <p><input type="hidden" name="language" value=${language}></p>
-            <p><input type="submit" value="<fmt:message key="button.orders"/>"></p>
+            <p><input type="submit" class="button" value="<fmt:message key="button.orders"/>"></p>
         </form>
     </c:if>
     <c:if test="${role eq 'reader'}">
         <form action="showOrder" method="get">
-            <p><input type="submit" value="<fmt:message key="button.myOrders"/>"></p>
+            <p><input type="submit" class="button" value="<fmt:message key="button.myOrders"/>"></p>
         </form>
     </c:if>
+    <form action="logOut" method="get">
+        <input type="submit" class="button" value="<fmt:message key="button.logOut"/>">
+    </form>
+</div>
+
+<table border="1" bordercolor="#333333">
+    <tr>
+        <td><fmt:message key="key.title"/></td>
+        <td><fmt:message key="key.genre"/></td>
+        <td><fmt:message key="key.author"/></td>
+        <td><fmt:message key="key.ISBN"/></td>
+        <td><fmt:message key="key.quantity"/></td>
+        <c:if test="${role eq 'librarian'}">
+            <td>
+                <fmt:message key="key.format"/>
+            </td>
+        </c:if>
+        <c:if test="${role eq 'reader'}">
+            <td>
+                <fmt:message key="button.orderBook"/>
+            </td>
+        </c:if>
+    </tr>
+
+    <c:forEach var="books" items="${list}">
+        <tr>
+            <td>${books.title}</td>
+            <td>
+                <c:forEach var="genre" items="${books.geners}">
+                    ${genre.genreName} <br>
+                </c:forEach>
+            </td>
+            <td>
+                <c:forEach var="autor" items="${books.autors}">
+                    ${autor.name}
+                    ${autor.surname}
+                    <br>
+                </c:forEach></td>
+            <td>${books.ISBN}</td>
+            <td>${books.quantity}</td>
+            <c:if test="${role eq 'librarian'}">
+                <td>
+                    <form action="editBookMenu" method="get">
+                        <p><input type="hidden" name="ID" value="${books.ID}"></p>
+                        <p><input type="submit" class="button" value="<fmt:message key="button.edit"/>"> </p>
+                    </form>
+                </td>
+            </c:if>
+            <c:if test="${role eq 'reader'}">
+                <td>
+                    <form action="makeOrder" method="get">
+                        <p><input type="hidden" name="ID" value="${books.ID}"></p>
+                        <p><input type="submit" value="<fmt:message key="button.orderBook"/>"></p>
+                    </form>
+                </td>
+            </c:if>
+        </tr>
+    </c:forEach>
+</table>
+
+
+
+
 
 </body>
 </html>

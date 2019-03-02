@@ -19,9 +19,11 @@
 </head>
 <body>
 ${information}
-<form action="forward" method="get">
-    <input type="hidden" name="direction" value="jsp/user.jsp" />
-    <p><input type="submit" value="<fmt:message key="button.forwardToUser"/>"></p>
+<form action="/showBook" method="get">
+    <input type="submit" value="<fmt:message key="button.mainPage"/>">
+</form>
+<form action="logOut" method="get">
+    <input type="submit" value="<fmt:message key="button.logOut"/>">
 </form>
 </body>
 </html>

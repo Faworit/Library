@@ -1,6 +1,7 @@
 package com.epam.library.Service;
 
 import com.epam.library.dataBase.GenreDAO;
+import com.epam.library.dataBase.LanguageDAO;
 import com.epam.library.entity.Genre;
 
 import javax.servlet.RequestDispatcher;
@@ -11,25 +12,17 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-import static com.epam.library.util.ConstantsOfLibrary.ENG;
-import static com.epam.library.util.ConstantsOfLibrary.RU;
-
-public class ShowAddBookMenuService implements Service{
+public class ShowAddBookMenuService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher;
-        HttpSession session = request.getSession(true);
-        String language = String.valueOf(session.getAttribute("language"));
-        int IDlanguage;
+        int idLanguage;
         List<Genre> genres;
-        if(language.equals("RU") || language.equals("/") || language.isEmpty()){
-            IDlanguage = RU;
-        }
-        else{
-            IDlanguage = ENG;
-        }
+        HttpSession session = request.getSession(true);
+        LanguageDAO languageDAO = new LanguageDAO();
         GenreDAO genreDAO = new GenreDAO();
-        genres = genreDAO.getAllGenres(IDlanguage);
+        idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
+        genres = genreDAO.getAllGenres(idLanguage);
         session.setAttribute("list", genres);
         dispatcher = request.getRequestDispatcher("jsp/creatingBook.jsp");
         dispatcher.forward(request, response);
