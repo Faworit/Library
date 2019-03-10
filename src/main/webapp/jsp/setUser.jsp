@@ -16,24 +16,33 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Library</title>
+    <link href="/css/user.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<form action="forward" method="get">
-    <input type="hidden" name="direction" value="jsp/setUser.jsp"/>
-    <p><input type="submit" name="language" value="RU"> </p>
-</form>
 
-<form action="forward" method="post">
-    <input type="hidden" name="direction" value="jsp/setUser.jsp" />
-    <p><input type="submit" name="language" value="ENG" ></p>
-</form>
+<div class="userLine">
+    <div class="greating">
+        <h1 align="center">${surname} ${name} </h1>
+    </div>
+    <div class="changeLanguage">
+        <form action="forward" method="get">
+            <input type="hidden" name="direction" value="jsp/setUser.jsp"/>
+            <input type="submit" class="button" name="language" value="ENG" >
+            <input type="submit" class="button" name="language" value="RU">
+        </form>
 
+    </div>
+</div>
+<div class="menu1">
+    <form action="logOut" method="get">
+        <input type="submit" class="button" value="<fmt:message key="button.logOut"/>">
+    </form>
+    <form action="/showBook" method="get">
+        <input type="submit" class="button" value="<fmt:message key="button.mainPage"/>">
+    </form>
+</div>
 <form action="createUser" method="get">
     <table>
-        <tr>
-            <td><fmt:message key="key.id"/>*</td>
-            <td><input type="text" name="ID" required></td>
-        </tr>
         <tr>
             <td><fmt:message key="key.password"/>*
                 <br> <fmt:message key="key.passwordFormat"/>
@@ -82,16 +91,13 @@
                 <option value="librarian"><fmt:message key="key.librarian"/></option>
             </select></td>
         </tr>
+        <tr>
+            <td>
+                <input type="submit" class="button" value="<fmt:message key="button.addUser"/>">
+                <br> ${loginExists}
+            </td>
+        </tr>
     </table>
-    <input type="submit" value="<fmt:message key="button.addUser"/>">
-    <br> ${loginExists}
-
-</form>
-<form action="logOut" method="get">
-    <input type="submit" value="<fmt:message key="button.logOut"/>">
-</form>
-<form action="/showBook" method="get">
-    <input type="submit" value="<fmt:message key="button.mainPage"/>">
 </form>
 </body>
 </html>

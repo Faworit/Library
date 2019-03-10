@@ -16,14 +16,17 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Library</title>
+    <link href="/css/user.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-${information}
-<form action="/showBook" method="get">
-    <input type="submit" value="<fmt:message key="button.mainPage"/>">
-</form>
-<form action="logOut" method="get">
-    <input type="submit" value="<fmt:message key="button.logOut"/>">
-</form>
+<h1>${information}</h1>
+<div class="menu1">
+    <form action="/showBook" method="get">
+        <input type="submit" value="<fmt:message key="button.mainPage"/>">
+    </form>
+    <form action="logOut" method="get">
+        <input type="submit" value="<fmt:message key="button.logOut"/>">
+    </form>
+</div>
 </body>
 </html>

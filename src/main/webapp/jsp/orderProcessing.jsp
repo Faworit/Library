@@ -92,7 +92,7 @@
                  </select>
             </td>
             <td>
-                <p><input type="submit" class="button" value="<fmt:message key="key.apply"/>"></p>
+                <p><input type="submit" class="button" value="<fmt:message key="key.apply"/>">${error}</p>
             </td>
         </tr>
     </form>

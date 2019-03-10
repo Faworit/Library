@@ -19,6 +19,17 @@
     <link href="/css/user.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<div class="userLine">
+    <div class="greating">
+        <h1 align="center">${surname} ${name} </h1>
+    </div>
+    <div class="changeLanguage">
+        <form action="/showBook" method="get">
+            <input type="submit" class="button" name="language" value="RU">
+            <input type="submit" class="button" name="language" value="ENG">
+        </form>
+    </div>
+</div>
 <div class="menu1">
     <form action="logOut" method="get">
         <input type="submit" class="button" value="<fmt:message key="button.logOut"/>">
@@ -29,7 +40,13 @@
 
     <form action="removeBook" method="get">
         <input type="hidden" name="ID" value="${book.ID}">
-        <button class="buttonDel"><fmt:message key="button.delete"/></button>
+        <button class="buttonDel" onclick="clicked(event)"><fmt:message key="button.delete"/></button>
+        <script>
+            function clicked(e)
+            {
+                if(!confirm('Are you sure?'))e.preventDefault();
+            }
+        </script>
     </form>
 </div>
 
@@ -51,7 +68,7 @@
         </tr>
         <tr>
             <td><fmt:message key="key.author"/></td>
-            <td><c:forEach var="author" items="${book.autors}">
+            <td><c:forEach var="author" items="${book.authors}">
                 <input type="hidden" name="idAuthor" value="${author.IDAuthor}">
                 <input type="text" name="name"  value="${author.name}">
                 <input type="text" name="surname"  value="${author.surname}">

@@ -2,7 +2,7 @@
 body {
     width: 100%;
     height: 100%;
-    background: #8b8b8b;
+    background-image: url("/img/fon.jpg");
 }
 .button{
     background: #4d4d4d;

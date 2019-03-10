@@ -43,6 +43,7 @@
         <form action="forward" method="get">
             <input type="hidden" name="direction" value="jsp/setUser.jsp" />
             <p><input type="submit" class="button" value="<fmt:message key="button.setUser"/>"></p>
+
         </form>
 
         <form action="showAddBookMenu" method="get">
@@ -92,9 +93,9 @@
                 </c:forEach>
             </td>
             <td>
-                <c:forEach var="autor" items="${books.autors}">
-                    ${autor.name}
-                    ${autor.surname}
+                <c:forEach var="author" items="${books.authors}">
+                    ${author.name}
+                    ${author.surname}
                     <br>
                 </c:forEach></td>
             <td>${books.ISBN}</td>
@@ -118,10 +119,5 @@
         </tr>
     </c:forEach>
 </table>
-
-
-
-
-
 </body>
 </html>
